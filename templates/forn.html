@@ -1,0 +1,123 @@
+ <!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+ <title>Chat app</title>
+ {% load staticfiles %}
+ <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href='{%static "css/app.css" %}'/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+
+</head>
+<body >
+<nav class="navbar navbar-default navbar-fixed-top">
+
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand"  href="#">chat</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      
+      <ul class="nav navbar-nav navbar-right">
+     
+	  <li> {% if user.is_authenticated %}
+      <a href="#">  {{ user.first_name }}</a></li>
+     <li>  <a href="{% url 'logout' %}"> logout</a></li>
+       {% else %}
+	   <li><a href="/register">Signup <i class="fa fa-user-plus"></i></a></li>
+       <li><a href="{% url 'login' %}">Login <i class="fa fa-user"></i></a></li>
+       {% endif %}
+	   
+	   </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+<div class="container">
+<div class="col-md-6 col-md-offset-3">
+      
+
+  <form method="post"  class="form-horizontal">{% csrf_token %}
+  <h1>Send Invites</h1>
+
+   <div class="form-group">
+   <label  class="col-md-3">Class:</label>
+ <div class="col-md-9">
+  <select multiple class="form-control" name="class">
+   {% for obj in chat %} 
+   
+     <option value="http://jatindermsite.cloudapp.net{% url 'home'  obj.id %}">{{obj.Title}}</option>
+   {% empty %}
+    <li style="color:red">No Classes</li>
+    {% endfor %}
+	</select>
+	</div>
+	</div>
+	
+ <div class="form-group">	
+ <label  class="col-md-3">TO:</label>
+ <div class="col-md-9">
+ <select multiple name="email_to"  class="form-control">
+    {% for obj in users %}
+		<option value="{{obj.email}}">{{obj.username}}</option>    {% endfor %}
+	</select>
+	</div>
+	</div>
+	
+	
+	
+	<div class="form-group">	
+ <label  class="col-md-3">Description:</label>
+ <div class="col-md-9">
+ 
+  <input type="text" name="class1" class="form-control">
+  <br>
+	</div>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	 <div class="form-group">
+	 <label  class="col-md-3">Subject:</label>
+ <div class="col-md-9">
+    {{form.subject}}
+	</div>
+	</div>
+    <input class="btn btn-primary btn-block" type="submit" value="Submit" />
+  </form>
+</div>
+</div>
+
+{% block javascript %}
+
+
+<script>
+{% if not user.is_authenticated %}
+$("ul.nav.navbar-nav.navbar-right").css("display","none");
+{% endif %}
+</script>
+  
+{% endblock %}
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+ </body>
+
+</html>
+
+

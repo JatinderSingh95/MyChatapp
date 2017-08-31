@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+ <title>chat</title>
+ {% load staticfiles %}
+ <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href='{%static "css/app.css" %}'/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+</head>
+<body style="background-image:none; background-color:whitesmoke">
+<nav class="navbar navbar-default navbar-fixed-top">
+
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand"  href="#">chat</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      
+      <ul class="nav navbar-nav navbar-right">
+     
+	  <li> {% if user.is_authenticated %}
+      <a href="#">  {{ user.username }}</a></li>
+     <li>  <a href="{% url 'logout' %}"> logout</a></li>
+       {% else %}
+	   <li><a href="/register">Signup <i class="fa fa-user-plus"></i></a></li>
+       <li><a href="{% url 'login' %}">Login <i class="fa fa-user"></i></a></li>
+       {% endif %}
+	   
+	   </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+<div class= "container">
+  <div class="spacer">&nbsp;</div>
+
+    <div class="row" >
+	<div class="col-md-6 col-md-offset-3" style="margin-bottom:10px">
+	<div id="cnt-blk">
+{% block body %}
+<div class="">
+
+<form method="post">
+    {% csrf_token %}
+	{% load widget_tweaks %}
+	{% if user.profile.utype == '1'%} 
+	<h1> Name </h1> {{user.first_name}}<br>
+	<h1> Email </h1> {{user.email}}<br>
+	<div class="btn-group">
+	     <label class="btn">
+		<input type="radio" value="1" name="user" checked onclick="return buttonClick(this.value)">	<span>Admin</span> 
+		</label>
+		<label class="btn">
+			<input type="radio" value="2" name="user"  onclick="return buttonClick(this.value)">	<span>Teacher</span>
+			</label>
+			<label class="btn">
+			<input type="radio" value="3" name="user" onclick="return buttonClick(this.value)">	<span>Student</span>
+        </label>
+</div>
+	{{form.utype|attr:"value:1"|attr:"id:qwert"}}
+	
+	
+	{% endif %}
+	{% if user.profile.utype == '2'%} 
+	<h1> Name </h1> {{user.first_name}}<br>
+	<h1> Email </h1> {{user.email}}<br>
+	<br>
+	<div class="btn-group">
+	     <label class="btn">
+		<input type="radio" value="1" name="user" onclick="return buttonClick(this.value)">	<span>Admin</span> 
+		</label>
+		<label class="btn">
+			<input type="radio" value="2" name="user" checked onclick="return buttonClick(this.value)">	<span>Teacher</span>
+			</label>
+			<label class="btn">
+			<input type="radio" value="3" name="user" onclick="return buttonClick(this.value)">	<span>Student</span>
+        </label>
+</div>		
+	{{form.utype|attr:"value:2"|attr:"id:qwert"}}
+	{% endif %}
+	{% if user.profile.utype == '3'%} 
+	<h1> Name </h1> {{user.first_name}}<br>
+	<h1> Email </h1> {{user.email}}<br>
+	<div class="btn-group">
+	     <label class="btn">
+		<input type="radio" value="1" name="user" onclick="return buttonClick(this.value)">	<span>Admin</span> 
+		</label>
+		<label class="btn">
+			<input type="radio" value="2" name="user"  onclick="return buttonClick(this.value)">	<span>Teacher</span>
+			</label>
+			<label class="btn">
+			<input type="radio" value="3" name="user" checked onclick="return buttonClick(this.value)">	<span>Student</span>
+        </label>
+</div>
+{{form.utype|attr:"value:2"|attr:"id:qwert"}}
+	{% endif %}
+	{% if user.profile.utype == ''%} 
+	<h1> Name </h1> {{user.first_name}}<br>
+	<h1> Email </h1> {{user.email}}<br>
+	<div class="btn-group">
+	     <label class="btn">
+		<input type="radio" value="1" name="user" onclick="return buttonClick(this.value)">	<span>Admin</span> 
+		</label>
+		<label class="btn">
+			<input type="radio" value="2" name="user"  onclick="return buttonClick(this.value)">	<span>Teacher</span>
+			</label>
+			<label class="btn">
+			<input type="radio" value="3" name="user" checked onclick="return buttonClick(this.value)">	<span>Student</span>
+        </label>
+</div>
+	{{form.utype|attr:"value:3"|attr:"id:qwert"}}
+	{% endif %}
+	<button class="btn btn-success"type="submit">submit</button>
+	</form>
+	<br>
+	</div>
+	
+	{% endblock %}
+	
+
+	
+
+
+
+
+
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script>
+  function buttonClick(theButton){
+
+    document.getElementById('qwert').value = theButton;
+    return true;
+}
+</script>
+  
+ </body>
+
+</html>
